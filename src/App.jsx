@@ -1,71 +1,120 @@
-import { useState, useEffect } from 'react'
-import { useAccount, useChainId } from 'wagmi'
-import WalletModal from './components/walletModal.jsx'
+import { useEffect, useState } from 'react'
 import './App.css'
-import './components/walletModal.css'
+import { useAccount, useConnectors, useConnect, useDisconnect, useSwitchChain } from "wagmi"
+import { mainnet, sepolia, lisk, liskSepolia, base, polygon } from 'wagmi/chains'
+import { reconnect } from '@wagmi/core'
+import { config } from './config/config.js'
 
-function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const { address, isConnected } = useAccount()
-  const chainId = useChainId()
+
+
+const WalletConnect = () => {
+  const accounts = useAccount()
+  const connectors = useConnectors()
+  const { connect } = useConnect()
+  const { disconnect } = useDisconnect()
+  const { switchChain } = useSwitchChain() 
+  const [connectClick, setConnectClick] = useState(false)
+  const [connector, setConnector] = useState(null)
+
+  const supportedChains = [mainnet, sepolia, lisk, liskSepolia, base, polygon]
+
   
-  // Get chain name based on chainId
-  const getChainName = () => {
-    const chains = {
-      1: 'Ethereum',
-      11155111: 'Sepolia',
-      137: 'Polygon',
-      8453: 'Base',
-      42161: 'Arbitrum',
-      10: 'Optimism'
-    }
-    return chains[chainId] || 'Unknown Network'
+
+
+  useEffect(() => {
+    
+
+    if(!connectors) return
+
+    if(accounts.address === undefined) return
+    setConnector(accounts.connector)
+    setConnectClick(false)
+
+
+    
+    
+
+  }, [accounts.connector])
+
+  const handleConnectWallet = () => {
+    setConnectClick(true)
+
   }
+
+  const handleConnector = (_connector) => {
+      connect({connector:_connector})
+    //  setConnector(_connector)
+    //  setConnectClick(false)
+
+  }
+
+  const handleDisconnect = () => {
+    if(connector){
+    disconnect()
+    setConnector(null)
+    setConnectClick(false)
+    }
+    
+  }
+
+  const handleSwitchChain = async (id) => {
+    console.log("chainID",id)
+    await switchChain({chainId:Number(id)})
+  }
+
+  console.log("ACCOUNTS: ", accounts);
+  console.log("CONNECTORS", connectors);
   
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>Web3 Wallet Connection</h1>
-      </header>
-      
-      <main className="app-main">
-        <div className="wallet-card">
-          <div className="wallet-status">
-            <div className="status-icon">
-              <div className={`connection-dot ${isConnected ? 'connected' : 'disconnected'}`}></div>
-            </div>
-            <div className="status-text">
-              {isConnected ? 'Connected' : 'Not Connected'}
-            </div>
-          </div>
-          
-          {isConnected && (
-            <div className="wallet-details">
-              <div className="detail-row">
-                <span>Network:</span>
-                <span className="network-badge">{getChainName()}</span>
-              </div>
-              <div className="detail-row">
-                <span>Address:</span>
-                <span className="address-text">{`${address.slice(0, 6)}...${address.slice(-4)}`}</span>
-              </div>
-            </div>
-          )}
-          
-          <button 
-            className={`connect-button ${isConnected ? 'manage' : 'connect'}`}
-            onClick={() => setIsModalOpen(true)}
-          >
-            {isConnected ? 'Manage Wallet' : 'Connect Wallet'}
-          </button>
-        </div>
-      </main>
-      
-      <WalletModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-      />
+    <>
+    {!connector?
+    <div>
+    {!connectClick?
+      <button onClick={handleConnectWallet}>Connect Wallet</button>
+      :
+      <div>
+      {
+        connectors.map((connector) => (
+          <button key={connector.id} onClick={() => handleConnector(connector)}>{connector.name}</button>
+        ))
+      }
+      <button onClick={()=>setConnectClick(false)}>Cancel Connect</button>
+      </div>
+    }
     </div>
+    :<div>
+      <p>
+        Address: {accounts.address}
+      </p>
+      <p>Connected: {accounts.isConnected && "Wallet Connected"}</p>
+      <p>Chain: {accounts.chain.name}</p>
+      <button onClick={handleDisconnect}>Disconnect Wallet</button>
+      <select value={accounts.chain.id} onChange={(e) => handleSwitchChain(e.target.value)}>
+        {
+          supportedChains ? 
+          supportedChains.map((chain) => (
+            <option key={chain.id} value={chain.id}>
+              {chain.name}
+            </option>
+          )):
+          <option>No Chains</option>
+        }
+      </select>
+      {/* <button onClick={handleSwitchChain}>Switch Chain</button> */}
+    </div>
+    }
+    </>
+  )
+  
+}
+
+function App() {
+
+  return (
+    <>
+    <WalletConnect/>
+      
+    </>
   )
 }
 
