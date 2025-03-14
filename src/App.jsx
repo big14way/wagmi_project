@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useAccount, useChainId } from 'wagmi'
-import WalletModal from './components/WalletModal'
+import WalletModal from './components/walletModal.jsx'
 import './App.css'
-import './components/WalletModal.css'
+import './components/walletModal.css'
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
