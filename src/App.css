@@ -1,185 +1,37 @@
-/* Reset and base styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f3f4f6;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  /* Main container */
-  .app-container {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    max-width: 500px;
-    width: 100%;
-    text-align: center;
-  }
-  
-  header h1 {
-    font-size: 1.8rem;
-    color: #1f2937;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Connect container */
-  .connect-container {
-    text-align: center;
-  }
-  
-  .connect-container h2 {
-    font-size: 1.5rem;
-    color: #374151;
-    margin-bottom: 1rem;
-  }
-  
-  .button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  /* Button styles */
-  button {
-    background-color: #6366f1;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  button:disabled {
-    background-color: #d1d5db;
-    cursor: not-allowed;
-  }
-  
-  button:hover:not(:disabled) {
-    background-color: #4f46e5;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-  
-  /* Primary button (Connect Wallet) */
-  .primary-btn {
-    background-color: #6366f1;
-    font-size: 1.2rem;
-    padding: 14px 28px;
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .primary-btn:hover:not(:disabled) {
-    background-color: #4f46e5;
-  }
-  
-  /* Cancel button */
-  .cancel-btn {
-    background-color: #9ca3af;
-    margin-top: 12px;
-  }
-  
-  .cancel-btn:hover:not(:disabled) {
-    background-color: #6b7280;
-  }
-  
-  /* Account info */
-  .account-info h2 {
-    font-size: 1.5rem;
-    color: #374151;
-    margin-bottom: 1rem;
-  }
-  
-  .info-grid {
-    display: grid;
-    gap: 12px;
-    text-align: left;
-    margin-bottom: 1.5rem;
-  }
-  
-  .info-grid p {
-    font-size: 1rem;
-    color: #4b5563;
-  }
-  
-  .info-grid strong {
-    color: #1f2937;
-  }
-  
-  /* Disconnect button */
-  .disconnect-btn {
-    background-color: #ef4444;
-    margin-bottom: 1.5rem;
-  }
-  
-  .disconnect-btn:hover:not(:disabled) {
-    background-color: #dc2626;
-  }
-  
-  /* Chain switcher */
-  .chain-switcher {
-    text-align: left;
-  }
-  
-  .chain-switcher label {
-    display: block;
-    font-size: 1rem;
-    color: #374151;
-    margin-bottom: 0.5rem;
-  }
-  
-  .chain-switcher select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 1rem;
-    background-color: #ffffff;
-    cursor: pointer;
-  }
-  
-  /* Error and pending messages */
-  .error-message {
-    color: #ef4444;
-    font-size: 0.9rem;
-    margin-top: 1rem;
-  }
-  
-  .pending-message {
-    color: #6366f1;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-  }
-  
-  /* Responsive design */
-  @media (max-width: 480px) {
-    .app-container {
-      padding: 1.5rem;
-    }
-  
-    header h1 {
-      font-size: 1.5rem;
-    }
-  
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-    }
-  
-    .primary-btn {
-      font-size: 1.1rem;
-      padding: 12px 24px;
-    }
-  }
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wallet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}

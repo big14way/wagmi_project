@@ -1,10 +1,10 @@
 import { http, createConfig } from 'wagmi'
-import { mainnet, sepolia, lisk, liskSepolia, base, polygon } from 'wagmi/chains'
+import { mainnet, sepolia, liskSepolia, base, polygon } from 'wagmi/chains'
 import { walletConnect  } from 'wagmi/connectors'
 
 
 export const config = createConfig({
-  chains: [mainnet, sepolia, lisk, liskSepolia, base, polygon],
+  chains: [mainnet, sepolia, liskSepolia, base, polygon],
   connectors: [walletConnect({
     projectId:import.meta.env.VITE_PROVIDER
   })],
